@@ -1,0 +1,17 @@
+{
+  "name": "meshblu-hue",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node command.js"
+  },
+  "dependencies": {
+    "lodash": "^2.4.1",
+    "request": "^2.45.0",
+    "skynet": "^1.1.1",
+    "tinycolor2": "^1.0.0"
+  },
+  "keywords": [
+    "meshblu-connector",
+    "gateblu"
+  ]
+}
