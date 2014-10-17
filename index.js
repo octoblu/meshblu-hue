@@ -56,10 +56,24 @@ function Plugin(){
 }
 util.inherits(Plugin, EventEmitter);
 
+
+
 Plugin.prototype.onMessage = function(message){
-  var payload, uri, self, body, hsv;
+  var payload = message.payload;
+  this.updateHue(payload);
+};
+
+Plugin.prototype.onConfig = function(device) {
+  this.setOptions(device.options||{});
+}
+
+Plugin.prototype.setOptions = function(options){
+  this.options = options;
+};
+
+Plugin.prototype.updateHue = function(payload) {
+  var uri, self, body, hsv;
   self    = this;
-  payload = message.payload;
   uri     = 'http://' + self.options.ipAddress + '/api/' + self.options.apiUsername + '/lights/' + payload.lightNumber + '/state';
   hsv     = tinycolor(payload.color).toHsv();
   body    = {
@@ -83,15 +97,7 @@ Plugin.prototype.onMessage = function(message){
     var errors = _.findWhere()
     self.emit('message', {devices: ['*'], topic: 'error', payload: {errors: body}});
   })
-};
-
-Plugin.prototype.onConfig = function(device) {
-  this.setOptions(device.options||{});
 }
-
-Plugin.prototype.setOptions = function(options){
-  this.options = options;
-};
 
 module.exports = {
   messageSchema: MESSAGE_SCHEMA,
