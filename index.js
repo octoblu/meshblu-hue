@@ -16,10 +16,12 @@ var MESSAGE_SCHEMA = {
       required: true
     },
     on: {
-      type: 'boolean'
+      type: 'boolean',
+      required: true
     },
     color: {
       type: 'string',
+      required: true
     },
     transitiontime: {
       type: 'number'
