@@ -15,6 +15,11 @@ var MESSAGE_SCHEMA = {
       type: 'number',
       required: true
     },
+    useGroup: {
+      type: 'boolean',
+      required: true,
+      defaut: false
+    },
     on: {
       type: 'boolean',
       required: true
@@ -74,9 +79,18 @@ Plugin.prototype.setOptions = function(options){
 };
 
 Plugin.prototype.updateHue = function(payload) {
-  var uri, self, body, hsv;
+  var uri, self, body, hsv, endpoint, action;
   self    = this;
-  uri     = 'http://' + self.options.ipAddress + '/api/' + self.options.apiUsername + '/lights/' + payload.lightNumber + '/state';
+
+  endpoint = 'lights';
+  action = 'state';
+
+  if (payload.useGroup) {
+    endpoint = 'groups';
+    action = 'action'
+  }
+
+  uri     = 'http://' + [self.options.ipAddress,'api',self.options.apiUsername,endpoint,payload.lightNumber,action].join('/');
   hsv     = tinycolor(payload.color).toHsv();
   body    = {
     on: payload.on,
