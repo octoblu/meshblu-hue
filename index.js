@@ -4,6 +4,7 @@ var EventEmitter = require('events').EventEmitter;
 var tinycolor = require('tinycolor2');
 var request = require('request');
 var _ = require('lodash');
+var debug = require('debug')('meshblu-hue');
 
 var HUE_SAT_MODIFIER = 254;
 var HUE_DEGREE_MODIFIER = 182.04;
