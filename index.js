@@ -19,7 +19,7 @@ var MESSAGE_SCHEMA = {
     useGroup: {
       type: 'boolean',
       required: true,
-      defaut: false
+      default: false
     },
     on: {
       type: 'boolean',
