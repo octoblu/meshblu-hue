@@ -52,6 +52,11 @@ var OPTIONS_SCHEMA = {
       type: 'string',
       required: true,
       default: 'newdeveloper'
+    },
+    sensorPollInterval:{
+      type: 'integer',
+      required: true,
+      default: 1000
     }
   }
 };
@@ -65,7 +70,6 @@ function Plugin(){
 util.inherits(Plugin, EventEmitter);
 
 
-
 Plugin.prototype.onMessage = function(message){
   var payload = message.payload;
   this.updateHue(payload);
@@ -76,7 +80,16 @@ Plugin.prototype.onConfig = function(device) {
 }
 
 Plugin.prototype.setOptions = function(options){
-  this.options = options;
+  var self = this;
+  self.options = options;
+
+  if(self.pollInterval) {
+    clearInterval(self.pollInterval);
+  }
+
+  self.pollInterval = setInterval(function(){
+    self.checkSensors();
+  }, self.options.sensorPollInterval || 1000);
 };
 
 Plugin.prototype.updateHue = function(payload) {
@@ -111,9 +124,22 @@ Plugin.prototype.updateHue = function(payload) {
     if (error) {
       self.emit('message', {devices: ['*'], topic: 'error', payload: {error: error}});
     }
-    var errors = _.findWhere()
     self.emit('message', {devices: ['*'], topic: 'error', payload: {errors: body}});
   })
+}
+
+Plugin.prototype.checkSensors = function(){
+  var self = this;
+  var uri = 'http://' + [self.options.ipAddress,'api',self.options.apiUsername,'sensors'].join('/');
+
+  request({method: 'GET', uri: uri, json: true}, function(error, response, body){
+    if (_.isEqual(self.lastSensor, body)){
+      return;
+    }
+
+    self.emit('message', {devices: ['*'], topic: 'sensor', payload: {sensors: body}});
+    self.lastSensor = body;
+  });
 }
 
 module.exports = {
