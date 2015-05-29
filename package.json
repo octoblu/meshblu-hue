@@ -1,6 +1,6 @@
 {
   "name": "meshblu-hue",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "scripts": {
     "preinstall": "node -e \"try{require('./skip-install.js')}catch(e){}\"",
     "start": "node command.js",
