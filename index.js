@@ -123,8 +123,11 @@ Plugin.prototype.updateHue = function(payload) {
   }, function(error, response, body) {
     if (error) {
       self.emit('message', {devices: ['*'], topic: 'error', payload: {error: error}});
+      return;
     }
-    self.emit('message', {devices: ['*'], topic: 'error', payload: {errors: body}});
+    if (response.statusCode > 400){
+      self.emit('message', {devices: ['*'], topic: 'error', payload: {errors: body}});
+    }
   })
 }
 
