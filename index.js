@@ -108,12 +108,17 @@ Plugin.prototype.updateHue = function(payload) {
   hsv     = tinycolor(payload.color).toHsv();
   body    = {
     on: payload.on,
-    bri: parseInt(hsv.v * HUE_SAT_MODIFIER),
-    hue: parseInt(hsv.h * HUE_DEGREE_MODIFIER),
-    sat: parseInt(hsv.s * HUE_SAT_MODIFIER),
     alert: payload.alert,
     effect: payload.effect,
     transitiontime: payload.transitiontime
+  }
+
+  if(payload.color) {
+    body = _.extend({
+      bri: parseInt(hsv.v * HUE_SAT_MODIFIER),
+      hue: parseInt(hsv.h * HUE_DEGREE_MODIFIER),
+      sat: parseInt(hsv.s * HUE_SAT_MODIFIER)
+    }, body);
   }
 
   request({
