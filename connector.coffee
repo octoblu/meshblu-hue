@@ -51,6 +51,9 @@ class Connector extends EventEmitter
       @emit 'data.send', data
       @conx.data data
 
+    @plugin.on 'update', (properties={}) =>
+      @conx.update properties
+
     @plugin.on 'error', @emitError
 
     @plugin.on 'message', (message) =>
