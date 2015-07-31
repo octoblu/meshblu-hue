@@ -62,9 +62,10 @@ class Plugin extends EventEmitter
     debug 'setOptions', options
     @options = _.extend apiUsername: 'octoblu', options
 
-    if @apikey && @options.apiUsername != @apikey?.devicetype
-      @apikey.devicetype = @options.apiUsername
-      @apikey.username = null
+    if @options.apiUsername != @apikey?.devicetype
+      @apikey =
+        devicetype: @options.apiUsername
+        username: null
 
     @hue = new HueUtil @options.apiUsername, @options.ipAddress, @apikey?.username, @onUsernameChange
 
