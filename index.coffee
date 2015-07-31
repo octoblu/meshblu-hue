@@ -54,19 +54,24 @@ class Plugin extends EventEmitter
     @updateHue payload
 
   onConfig: (device={}) =>
-    debug 'on config', username: device.username
-    @username = device.username
+    debug 'on config', apikey: device.apikey
+    @apikey = device.apikey || {}
     @setOptions device.options
 
   setOptions: (options={}) =>
     debug 'setOptions', options
     @options = _.extend apiUsername: 'octoblu', options
-    @hue = new HueUtil @options.apiUsername, @options.ipAddress, @username, @onUsernameChange
+
+    if @apikey && @options.apiUsername != @apikey?.devicetype
+      @apikey.devicetype = @options.apiUsername
+      @apikey.username = null
+
+    @hue = new HueUtil @options.apiUsername, @options.ipAddress, @apikey?.username, @onUsernameChange
 
   onUsernameChange: (username) =>
     debug 'onUsernameChange', username
-    @username = username
-    @emit 'update', username: @username
+    @apikey.username = username
+    @emit 'update', apikey: @apikey
 
   updateHue: (payload={}) =>
     debug 'updating hue', payload
