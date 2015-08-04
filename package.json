@@ -1,6 +1,6 @@
 {
   "name": "meshblu-hue",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "scripts": {
     "preinstall": "node -e \"try{require('./skip-install.js')}catch(e){}\"",
     "start": "node command.js",
@@ -9,7 +9,7 @@
   "dependencies": {
     "coffee-script": "^1.9.3",
     "debug": "^2.1.1",
-    "hue-util": "^1.0.2",
+    "hue-util": "^1.1.1",
     "lodash": "^3.9.3",
     "meshblu": "^1.30.0",
     "request": "^2.45.0",
