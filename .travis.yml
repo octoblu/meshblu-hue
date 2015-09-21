@@ -1,18 +1,36 @@
-sudo: false
 language: node_js
-cache:
-  bundler: true
-  directories:
-    - node_modules
 node_js:
 - '0.10'
+before_install:
+  - npm install npm -g
+before_deploy:
+  - npm install ws browserify coffeeify
+  - mkdir -p deploy/meshblu-hue/latest
+  - mkdir -p deploy/meshblu-hue/$TRAVIS_TAG
+  - node_modules/.bin/browserify -t coffeeify -s Connector connector.js > deploy/meshblu-hue/latest/meshblu-hue.js
+  - gzip deploy/meshblu-hue/latest/meshblu-hue.js
+  - mv deploy/meshblu-hue/latest/meshblu-hue.js.gz deploy/meshblu-hue/latest/meshblu-hue.js
+  - cp deploy/meshblu-hue/latest/meshblu-hue.js deploy/meshblu-hue/$TRAVIS_TAG/meshblu-hue.js
 deploy:
-  provider: npm
-  skip_cleanup: true
-  clean_up: false
-  email: serveradmin@octoblu.com
-  api_key:
-    secure: d5/gdeVe30jZJrvdkgeI20ryNoy1VmBv7lFMK51/sb07bq0H2V2dr/XfPIYOqIK3698CbRPxFcFd3OzU1hKmejaHjS8ArSD7a5PTQl+BcTBp9g1/u+qlF66snkVsfPd/DLOybnL7crM+jNX5kpETE8vYZkq3qQnj2ZOuk+AMSd0=
-  on:
-    tags: true
-    all_branches: true
+  - provider: s3
+    region: us-west-2
+    skip_cleanup: true
+    detect_encoding: true
+    access_key_id: AKIAJH2D5IPIRHYJT5IA
+    secret_access_key:
+      secure: "GcILkadj/Chc9+0jit9Wxdvz1juLt3NFIQkT6u7nVQes8ilJfNxqO46kjP3yI7b8Mkd7yhib5kAs4rZ/vLDUWfgdkned9kk3A/GILrcw9/YtC/+9HzT1zr5/NBdu9eH2R3cR2fQI1MrGjqeWyHWL1qEcstvvdeohlrv1qvCW/WI="
+    bucket: octoblu-cdn
+    local-dir: deploy
+    upload-dir: js
+    on:
+      tags: true
+      all_branches: true
+  - provider: npm
+    skip_cleanup: true
+    clean_up: false
+    email: serveradmin@octoblu.com
+    api_key:
+      secure: "YUgjrXIuz2+wePcpxpJ345ncQtsLCcVoPd2Jkh12PjJOY5ReueO/N4xJ2czeAiMbyMwTiVbWs3Vdg1o4ghpZjpIT+jIy7DE31htOZUZrQNAz1Nd87S3uYprcs0aY2KSrRyxyXg4CHLK/wg+wjyzZnYNQOAKjsnDr1Z5Ji9o9jxg="
+    on:
+      tags: true
+      all_branches: true

@@ -1,10 +1,12 @@
 meshblu  = require 'meshblu'
 {EventEmitter} = require 'events'
-{Plugin} = require './index'
+{Plugin} = require './index.coffee'
 
 class Connector extends EventEmitter
   constructor: (@config={}) ->
-    process.on 'uncaughtException', @emitError
+    process?.on 'uncaughtException', (error) =>
+      @emitError error
+      process?.exit 1
 
   createConnection: =>
     @conx = meshblu.createConnection
@@ -43,6 +45,7 @@ class Connector extends EventEmitter
         messageSchema: @plugin.messageSchema,
         optionsSchema: @plugin.optionsSchema,
         options:       @plugin.options
+        initializing:  false
 
   run: =>
     @plugin = new Plugin();
@@ -51,10 +54,11 @@ class Connector extends EventEmitter
       @emit 'data.send', data
       @conx.data data
 
-    @plugin.on 'update', (properties={}) =>
-      @conx.update properties
-
     @plugin.on 'error', @emitError
+
+    @plugin.on 'update', (properties) =>
+      @emit 'update', properties
+      @conx.update properties
 
     @plugin.on 'message', (message) =>
       @emit 'message.send', message

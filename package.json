@@ -1,37 +1,37 @@
 {
   "name": "meshblu-hue",
-  "version": "2.0.2",
+  "repository": "octoblu/meshblu-hue",
+  "version": "2.1.0",
+  "main": "connector.js",
   "scripts": {
     "preinstall": "node -e \"try{require('./skip-install.js')}catch(e){}\"",
     "start": "node command.js",
     "test": "exit 0"
   },
   "dependencies": {
-    "coffee-script": "^1.9.3",
-    "debug": "^2.1.1",
-    "hue-util": "^1.1.1",
-    "lodash": "^3.9.3",
-    "meshblu": "^1.30.0",
-    "request": "^2.45.0",
-    "tinycolor2": "^1.0.0"
+    "coffee-script": "^1.9.0",
+    "debug": "^2.1.0",
+    "hue-util": "^1.1.2",
+    "lodash": "^3.10.1",
+    "meshblu": "^1.30.1",
+    "request": "^2.63.0",
+    "tinycolor2": "^1.1.2"
   },
   "bundledDependencies": [
     "request",
     "tar",
     "fstream"
   ],
+  "platformDependencies": {
+    "darwin": [],
+    "win32": [],
+    "win64": [],
+    "linux": [],
+    "android": [],
+    "ios": []
+  },
   "keywords": [
     "meshblu-connector",
     "gateblu"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/octoblu/meshblu-hue.git"
-  },
-  "author": "Octoblu, Inc. <sqrt@octoblu.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/octoblu/meshblu-hue/issues"
-  },
-  "homepage": "https://github.com/octoblu/meshblu-hue"
+  ]
 }
