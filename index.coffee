@@ -11,17 +11,17 @@ MESSAGE_SCHEMA =
   type: 'object'
   properties:
     lightNumber:
-      type: 'number',
+      type: 'number'
       required: true
     useGroup:
-      type: 'boolean',
-      required: true,
+      type: 'boolean'
+      required: true
       default: false
     on:
-      type: 'boolean',
+      type: 'boolean'
       required: true
     color:
-      type: 'string',
+      type: 'string'
       required: true
     transitiontime:
       type: 'number'
@@ -34,11 +34,11 @@ OPTIONS_SCHEMA =
   type: 'object'
   properties:
     ipAddress:
-      type: 'string',
+      type: 'string'
       required: true
     apiUsername:
-      type: 'string',
-      required: true,
+      type: 'string'
+      required: true
       default: 'octoblu'
 
 class Plugin extends EventEmitter

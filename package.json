@@ -1,7 +1,7 @@
 {
   "name": "meshblu-hue",
   "repository": "octoblu/meshblu-hue",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": "connector.js",
   "scripts": {
     "preinstall": "node -e \"try{require('./skip-install.js')}catch(e){}\"",
@@ -11,10 +11,9 @@
   "dependencies": {
     "coffee-script": "^1.9.0",
     "debug": "^2.1.0",
-    "hue-util": "^1.1.2",
+    "hue-util": "^1.1.4",
     "lodash": "^3.10.1",
     "meshblu": "^1.30.1",
-    "request": "^2.63.0",
     "tinycolor2": "^1.1.2"
   },
   "bundledDependencies": [
